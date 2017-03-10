@@ -1,0 +1,23 @@
+{
+  "name": "browser",
+  "productName": "Browser",
+  "version": "0.0.0",
+  "description": "browser",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "author": "cpsdqs",
+  "license": "MIT",
+  "dependencies": {
+    "color": "^1.0.3",
+    "material-design-icons": "^3.0.1"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-less": "^3.3.0",
+    "gulp-sourcemaps": "^2.4.1",
+    "gulp-watch": "^4.3.11",
+    "standard": "^9.0.1"
+  }
+}
