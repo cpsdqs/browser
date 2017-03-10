@@ -59,21 +59,24 @@ let createBrowser = function (url = 'about:blank') {
       scrollAnimator.setValue(browsers.indexOf(nbrowser))
     }
   })
+  browser.closeTab = () => {
+    browser.transform.scaleX.setValue(0)
+    browser.transform.scaleY.setValue(0)
+    browser.transform.opacity.setValue(0)
+    setTimeout(() => {
+      browsers.splice(browsers.indexOf(browser), 1)
+      document.body.removeChild(browser)
+      if (browsers.length === 0) {
+        overviewAnimator.setValue(0, true)
+        createBrowser()
+      }
+      scrollAnimator.start()
+    }, 300)
+  }
   browser.addEventListener('click', e => {
     if (overviewAnimator.position > 0.4) {
       if (e.target === browser.overviewButton) {
-        browser.transform.scaleX.setValue(0)
-        browser.transform.scaleY.setValue(0)
-        browser.transform.opacity.setValue(0)
-        setTimeout(() => {
-          browsers.splice(browsers.indexOf(browser), 1)
-          document.body.removeChild(browser)
-          if (browsers.length === 0) {
-            overviewAnimator.setValue(0, true)
-            createBrowser()
-          }
-          scrollAnimator.start()
-        }, 300)
+        browser.closeTab()
       } else {
         scrollAnimator.setValue(browsers.indexOf(browser))
         overviewAnimator.setValue(0)
@@ -90,3 +93,15 @@ ipc.on('toggle-dev-tools', () => activeBrowser.toggleDevTools())
 ipc.on('history-back', () => activeBrowser.back())
 ipc.on('history-forward', () => activeBrowser.forward())
 ipc.on('focus-location', () => activeBrowser.focusLocation())
+
+ipc.on('new-tab', () => {
+  let browser = createBrowser()
+  scrollAnimator.setValue(browsers.indexOf(browser))
+  overviewAnimator.start()
+})
+ipc.on('close-tab', () => {
+  activeBrowser.closeTab()
+})
+ipc.on('overview', () => {
+  overviewAnimator.setValue(+!overviewAnimator.value)
+})

@@ -3,6 +3,33 @@ const {Menu} = require('electron')
 module.exports = function () {
   let template = [
     {
+      label: 'File',
+      submenu: [
+        {
+          label: 'New Tab',
+          accelerator: 'CmdOrCtrl+T',
+          click (item, window) { window.webContents.send('new-tab') }
+        },
+        {
+          label: 'Close Tab',
+          accelerator: 'CmdOrCtrl+W',
+          click (item, window) { window.webContents.send('close-tab') }
+        },
+        { type: 'separator' },
+        {
+          label: 'Location...',
+          accelerator: 'CmdOrCtrl+L',
+          click (item, window) { window.webContents.send('focus-location') }
+        },
+        { type: 'separator' },
+        {
+          label: 'Overview',
+          accelerator: 'Shift+CmdOrCtrl+\\',
+          click (item, window) { window.webContents.send('overview') }
+        }
+      ]
+    },
+    {
       label: 'Edit',
       submenu: [
         { role: 'undo' },
@@ -53,12 +80,6 @@ module.exports = function () {
           label: 'Forward',
           accelerator: 'CmdOrCtrl+]',
           click (item, window) { window.webContents.send('history-forward') }
-        },
-        { type: 'separator' },
-        {
-          label: 'Location...',
-          accelerator: 'CmdOrCtrl+L',
-          click (item, window) { window.webContents.send('focus-location') }
         }
       ]
     },
@@ -66,7 +87,7 @@ module.exports = function () {
       role: 'window',
       submenu: [
         { role: 'minimize' },
-        { role: 'close' }
+        { role: 'close', accelerator: 'Shift+CmdOrCtrl+W' }
       ]
     },
     {
@@ -94,7 +115,7 @@ module.exports = function () {
         { role: 'quit' }
       ]
     })
-    template[1].submenu.push(
+    template[2].submenu.push(
       { type: 'separator' },
       {
         label: 'Speech',
@@ -104,8 +125,8 @@ module.exports = function () {
         ]
       }
     )
-    template[4].submenu = [
-      { role: 'close' },
+    template[5].submenu = [
+      { role: 'close', accelerator: 'Shift+CmdOrCtrl+W' },
       { role: 'minimize' },
       { role: 'zoom' },
       { type: 'separator' },

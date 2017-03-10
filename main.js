@@ -11,7 +11,10 @@ function createWindow () {
     height: 600,
     webPreferences: {
       blinkFeatures: 'CustomElementsV1'
-    }
+    },
+    vibrancy: 'dark',
+    transparent: process.platform !== 'darwin',
+    backgroundColor: process.platform !== 'darwin' ? '#222a' : undefined
   })
 
   mainWindow.loadURL(url.format({
